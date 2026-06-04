@@ -1,0 +1,92 @@
+:root {
+    --primary: #f7ff14;
+    --secondary: #d6d6d6;
+    --tertiary: #606060;
+    --error: #f04124;
+    --success: #00a54f;
+    --gap: 8px;
+}
+
+body {
+    font-family: sans-serif;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+}
+
+main>article {
+    background: var(--secondary);
+    margin: var(--gap);
+    padding: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+article>h1 {
+    font-size: 1em;
+}
+
+article>output {
+    font-size: 2em;
+    font-family: monospace;
+}
+
+button {
+    width: 100%;
+    padding: var(--gap);
+    border: none;
+    background: var(--primary);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.validation-result.ok {
+    color: var(--success);
+}
+
+.validation-result.error {
+    color: var(--error);
+}
+
+footer {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--gap);
+    margin: 0 var(--gap);
+}
+
+footer>div.horizontal-lines {
+    flex: 1;
+    height: 12px;
+    position: relative;
+}
+
+footer>.horizontal-lines::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--primary);
+}
+
+footer>.horizontal-lines::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--tertiary);
+}

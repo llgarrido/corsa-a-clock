@@ -1,0 +1,76 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Minify HTML, JS and CSS",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Minify HTML",
+                "Minify JavaScript",
+                "Minify CSS",
+                "Generate Resources.h"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Generate Resources.h",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "tools/Generate-HtmlResources.ps1"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Minify HTML",
+            "type": "shell",
+            "command": "npx",
+            "args": [
+                "--yes",
+                "html-minifier-terser",
+                "static-files/index.html",
+                "-o",
+                "static-files/min/index.html",
+                "--collapse-whitespace",
+                "--remove-comments",
+                "--remove-optional-tags",
+                "--remove-redundant-attributes"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Minify JavaScript",
+            "type": "shell",
+            "command": "npx",
+            "args": [
+                "--yes",
+                "terser",
+                "static-files/index.js",
+                "-c",
+                "-m",
+                "-o",
+                "static-files/min/index.js"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Minify CSS",
+            "type": "shell",
+            "command": "npx",
+            "args": [
+                "--yes",
+                "clean-css-cli",
+                "-O2",
+                "-o",
+                "static-files/min/styles.css",
+                "static-files/styles.css"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
+
