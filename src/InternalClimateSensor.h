@@ -15,13 +15,14 @@ public:
    */
   InternalClimateSensor(uint8_t pin);
 
-  int begin() override;
+  byte begin() override;
   bool hasReadout() override;
   float getTemperature() override;
   byte getHumidity() override;
 
 private:
-  int read();
+  byte normalizeError(int error);
+  byte read();
   void updateIfNeeded();
 
   SimpleDHT11 _dht;

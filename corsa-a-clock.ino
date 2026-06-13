@@ -68,7 +68,7 @@ void setup()
   buttonTab.begin();
   buttonEnter.begin();
   byte rtcInitializationResult = rtc.begin();
-  int internalClimateSensorInitializationError = internalClimateSensor.begin();
+  byte internalClimateSensorInitializationError = internalClimateSensor.begin();
   {
     char errorValue[12];
     if (rtcInitializationResult != 0)
