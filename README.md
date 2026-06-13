@@ -27,7 +27,7 @@ Main components:
 - FS400-SHT3X / SHT30 I2C exterior temperature and humidity sensor.
 - 2 navigation push buttons.
 
-Pins defined in `corsa-a-clock.ino`:
+Pins used by the firmware:
 
 | Function | Pin |
 | --- | ---: |
@@ -37,6 +37,8 @@ Pins defined in `corsa-a-clock.ino`:
 | TFT backlight | 32 |
 | RTC SQW | 33 |
 | DHT11 internal data | 26 |
+| I2C SDA | 21 |
+| I2C SCL | 22 |
 | TAB button | 14 |
 | ENTER button | 27 |
 
