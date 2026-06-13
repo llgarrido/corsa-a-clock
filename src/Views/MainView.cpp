@@ -1,8 +1,8 @@
 #include "MainView.h"
 #include "../DataPipe.h"
 
-MainView::MainView(Display &display, Button &enterButton, Clock &clock, ClimateSensor &climateSensor)
-    : View(display, enterButton), _clock(clock), _climateSensor(climateSensor) {}
+MainView::MainView(Display &display, Button &enterButton, Clock &clock, ClimateSensor &externalClimateSensor)
+    : View(display, enterButton), _clock(clock), _externalClimateSensor(externalClimateSensor) {}
 
 void MainView::onInitialized()
 {
@@ -33,11 +33,11 @@ void MainView::displayDateTime()
 
 void MainView::displayClimate()
 {
-  bool isValid = _climateSensor.hasReadout();
+  bool isValid = _externalClimateSensor.hasReadout();
   char temperature[6];
   char humidity[5];
-  DataPipe::formatTemperature(isValid, _climateSensor.getTemperature(), temperature, sizeof(temperature));
-  DataPipe::formatHumidity(isValid, _climateSensor.getHumidity(), humidity, sizeof(humidity));
+  DataPipe::formatTemperature(isValid, _externalClimateSensor.getTemperature(), temperature, sizeof(temperature));
+  DataPipe::formatHumidity(isValid, _externalClimateSensor.getHumidity(), humidity, sizeof(humidity));
   display().write(0, 3, temperature);
   display().write(6, 3, humidity);
 }

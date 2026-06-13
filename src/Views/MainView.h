@@ -18,9 +18,9 @@ public:
    * @param display Display used to render the date, time and climate readout.
    * @param enterButton Button inherited by the base view.
    * @param clock Clock used to read the current date and time.
-   * @param climateSensor Sensor used to read temperature and humidity.
+   * @param externalClimateSensor Sensor used to read exterior temperature and humidity.
    */
-  MainView(Display &display, Button &enterButton, Clock &clock, ClimateSensor &climateSensor);
+  MainView(Display &display, Button &enterButton, Clock &clock, ClimateSensor &externalClimateSensor);
 
   void update() override;
 
@@ -32,5 +32,5 @@ private:
   void displayClimate();
 
   Clock &_clock;
-  ClimateSensor &_climateSensor;
+  ClimateSensor &_externalClimateSensor;
 };

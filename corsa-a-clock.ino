@@ -5,21 +5,23 @@
   retro-styled visual appearance inspired by classic car instruments.
 
   The sketch drives an ST7735 TFT screen, reads time from a DS3231 RTC,
-  displays temperature and humidity from a DHT11 sensor, and provides a
-  button-controlled view system. A temporary WiFi access point with an
-  embedded HTTP server can be started from the settings view to adjust the
-  RTC date and time from a browser.
+  displays cabin temperature and humidity from an internal DHT11 sensor,
+  reads an external SHT30/SHT3x I2C probe, and provides a button-controlled
+  view system. A temporary WiFi access point with an embedded HTTP server can
+  be started from the settings view to adjust the RTC date and time from a browser.
 
   Hardware:
     - ESP32 board
     - ST7735 TFT display
     - DS3231 real-time clock module
     - DHT11 internal temperature and humidity sensor
+    - SHT30/SHT3x I2C external temperature and humidity sensor
     - Two navigation buttons
 */
 
 #include "src/Display.h"
 #include "src/Clock.h"
+#include "src/ExternalClimateSensor.h"
 #include "src/InternalClimateSensor.h"
 #include "src/Button.h"
 #include "src/View.h"
@@ -41,6 +43,9 @@
 // --- Internal DHT11 ---
 #define DHT_PIN 26
 
+// --- SHT30/SHT3x ---
+#define SHT30_I2C_ADDRESS 0x44
+
 // --- Navigation buttons ---
 #define KEY_TAB_PIN 14
 #define KEY_ENTER_PIN 27
@@ -48,11 +53,12 @@
 Display display(DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, DISPLAY_BL_PIN);
 Clock rtc(RTC_SQW_PIN);
 InternalClimateSensor internalClimateSensor(DHT_PIN);
+ExternalClimateSensor externalClimateSensor(SHT30_I2C_ADDRESS);
 Button buttonTab(KEY_TAB_PIN);
 Button buttonEnter(KEY_ENTER_PIN);
 HttpServer httpServer(rtc);
 SplashScreenView splashScreenView(display, buttonEnter);
-MainView mainView(display, buttonEnter, rtc, climateSensor);
+MainView mainView(display, buttonEnter, rtc, externalClimateSensor);
 SettingsView settingsView(display, buttonEnter, httpServer);
 ViewLocator::NamedView namedViews[] = {
     {ViewName::SplashScreen, &splashScreenView}};
@@ -105,6 +111,7 @@ void setup()
   InitializationResult initializationResults[] = {
       {"Clock", rtc.begin()},
       {"Int. Clima", internalClimateSensor.begin()},
+      {"Ext. Clima", externalClimateSensor.begin()}};
   initialize(initializationResults, sizeof(initializationResults) / sizeof(initializationResults[0]));
 
   currentView = ViewLocator::resolveNextCarouselView();
