@@ -27,6 +27,7 @@
 #include "src/View.h"
 #include "src/ViewLocator.h"
 #include "src/HttpServer.h"
+#include "src/Views/ClimateView.h"
 #include "src/Views/MainView.h"
 #include "src/Views/SettingsView.h"
 #include "src/Views/SplashScreenView.h"
@@ -59,10 +60,13 @@ Button buttonEnter(KEY_ENTER_PIN);
 HttpServer httpServer(rtc);
 SplashScreenView splashScreenView(display, buttonEnter);
 MainView mainView(display, buttonEnter, rtc, externalClimateSensor);
+ClimateView climateView(display, buttonEnter, internalClimateSensor, externalClimateSensor);
 SettingsView settingsView(display, buttonEnter, httpServer);
 ViewLocator::NamedView namedViews[] = {
     {ViewName::SplashScreen, &splashScreenView}};
-View *carouselViews[] = {&mainView, &settingsView};
+View *carouselViews[] = {&mainView, &climateView, &settingsView};
+static constexpr uint8_t NAMED_VIEW_COUNT = sizeof(namedViews) / sizeof(namedViews[0]);
+static constexpr uint8_t CAROUSEL_VIEW_COUNT = sizeof(carouselViews) / sizeof(carouselViews[0]);
 View *currentView = nullptr;
 
 /**
@@ -102,9 +106,9 @@ void initialize(const InitializationResult results[], size_t count)
 void setup()
 {
   display.begin();
-  ViewLocator::registerNamedViews(namedViews, 1);
+  ViewLocator::registerNamedViews(namedViews, NAMED_VIEW_COUNT);
   currentView = ViewLocator::resolveView(ViewName::SplashScreen);
-  ViewLocator::registerCarouselViews(carouselViews, 2);
+  ViewLocator::registerCarouselViews(carouselViews, CAROUSEL_VIEW_COUNT);
   buttonTab.begin();
   buttonEnter.begin();
 

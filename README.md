@@ -2,7 +2,7 @@
 
 Digital clock for the dashboard of the Opel/Vauxhall/Chevrolet Corsa A facelift introduced in 1990. The project recreates an LCD-style display on an ST7735 TFT and combines date, time, day of week, temperature, and humidity in a compact format designed for the car interior.
 
-The firmware is built for Arduino/ESP32 and organizes the interface into views: a main screen, a Wi-Fi settings screen, and a splash/error screen.
+The firmware is built for Arduino/ESP32 and organizes the interface into views: a main screen, a climate comparison screen, a Wi-Fi settings screen, and a splash/error screen.
 
 ## Features
 
@@ -64,9 +64,10 @@ To configure a device-specific password:
 1. On startup, the display, buttons, RTC, and DHT11 sensor are initialized.
 2. If clock or sensor errors are detected, they are shown on the screen.
 3. The main view shows date, time, day, temperature, and humidity.
-4. The TAB button switches between the main view and the settings view.
-5. In the settings view, ENTER starts or stops the Wi-Fi access point.
-6. After connecting to the device network, open `http://192.168.1.1/` to synchronize the time.
+4. The climate view shows internal and exterior temperature/humidity readings.
+5. The TAB button switches between the main view, climate view, and settings view.
+6. In the settings view, ENTER starts or stops the Wi-Fi access point.
+7. After connecting to the device network, open `http://192.168.1.1/` to synchronize the time.
 
 If the RTC reports lost power, the clock keeps the 1 Hz refresh signal active but treats the date/time as invalid until it is synchronized.
 
