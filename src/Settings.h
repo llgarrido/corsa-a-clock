@@ -44,7 +44,7 @@ public:
     /**
      * @brief Footer text shown on the last row of the device display.
      */
-    inline static const char *const Footer = "==== CORSA";
+    inline static const char *const Footer = "~~~~ CORSA";
 
     /**
      * @brief Color for active pixels (bright yellow): #f7ff14.
