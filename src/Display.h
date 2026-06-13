@@ -107,9 +107,10 @@ private:
 
   /**
    * Converts a character to its corresponding index in the charMap.
-   * Supports digits (0-9), uppercase letters (A-Z), space, hyphen, equals, colon, asterisk, vertical bar, and hash.
+   * Supports digits (0-9), uppercase letters (A-Z), space, hyphen, equals, colon, asterisk, vertical bar, hash, dot,
+   * and the '~' monochrome separator inspired by classic Opel merchandising.
    * @param character Character to convert
-   * @return Index in charMap (0-41) or -1 if character is not supported
+   * @return Index in charMap (0-44) or -1 if character is not supported
    */
   int charToIndex(char character);
 };
