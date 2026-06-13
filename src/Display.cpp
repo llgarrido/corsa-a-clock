@@ -148,18 +148,32 @@ void Display::drawChar(int16_t x, int16_t y, char character, uint16_t onColor, u
   }
 }
 
-void Display::write(int16_t col, int16_t row, const char *text)
+void Display::write(int16_t col, int16_t row, const char *text, bool wrap)
 {
-  int16_t y = 2 + ROW_HEIGHT * row;
+  int16_t currentCol = col;
+  int16_t currentRow = row;
   int16_t i = 0;
-  while (text[i] && (col + i) < COLS)
+  while (text[i] && currentRow < ROWS)
   {
-    if (row < ROWS && _buffer[row][col + i] != text[i])
+    if (currentCol >= COLS)
     {
-      int16_t x = (col + i) * (CHARACTER_WIDTH + CHARACTER_GAP);
-      drawChar(x, y, text[i], Settings::Display::OnColor, Settings::Display::OffColor);
-      _buffer[row][col + i] = text[i];
+      if (!wrap)
+        break;
+
+      currentCol = 0;
+      currentRow++;
+      continue;
     }
+
+    if (currentRow >= 0 && currentCol >= 0 && _buffer[currentRow][currentCol] != text[i])
+    {
+      int16_t x = currentCol * (CHARACTER_WIDTH + CHARACTER_GAP);
+      int16_t y = 2 + ROW_HEIGHT * currentRow;
+      drawChar(x, y, text[i], Settings::Display::OnColor, Settings::Display::OffColor);
+      _buffer[currentRow][currentCol] = text[i];
+    }
+
+    currentCol++;
     i++;
   }
 }

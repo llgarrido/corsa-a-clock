@@ -58,8 +58,9 @@ public:
    * @param col Column index (0-based)
    * @param row Row index (0-based)
    * @param text Null-terminated string to write
+   * @param wrap Continue writing on following rows when text reaches the last column
    */
-  void write(int16_t col, int16_t row, const char *text);
+  void write(int16_t col, int16_t row, const char *text, bool wrap = false);
 
   /**
    * Writes a string to the display at the specified row using text alignment.
