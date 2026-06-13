@@ -14,13 +14,13 @@
     - ESP32 board
     - ST7735 TFT display
     - DS3231 real-time clock module
-    - DHT11 temperature and humidity sensor
+    - DHT11 internal temperature and humidity sensor
     - Two navigation buttons
 */
 
 #include "src/Display.h"
 #include "src/Clock.h"
-#include "src/ClimateSensor.h"
+#include "src/InternalClimateSensor.h"
 #include "src/Button.h"
 #include "src/View.h"
 #include "src/ViewLocator.h"
@@ -38,7 +38,7 @@
 // --- RTC DS3231 ---
 #define RTC_SQW_PIN 33
 
-// --- DHT11 ---
+// --- Internal DHT11 ---
 #define DHT_PIN 26
 
 // --- Navigation buttons ---
@@ -47,7 +47,7 @@
 
 Display display(DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, DISPLAY_BL_PIN);
 Clock rtc(RTC_SQW_PIN);
-ClimateSensor climateSensor(DHT_PIN);
+InternalClimateSensor internalClimateSensor(DHT_PIN);
 Button buttonTab(KEY_TAB_PIN);
 Button buttonEnter(KEY_ENTER_PIN);
 HttpServer httpServer(rtc);
@@ -68,8 +68,7 @@ void setup()
   buttonTab.begin();
   buttonEnter.begin();
   byte rtcInitializationResult = rtc.begin();
-  int climateSensorInitializationError = climateSensor.begin();
-  if ((rtcInitializationResult != 0) || (climateSensorInitializationError != 0))
+  int internalClimateSensorInitializationError = internalClimateSensor.begin();
   {
     char errorValue[12];
     if (rtcInitializationResult != 0)
@@ -77,10 +76,12 @@ void setup()
       snprintf(errorValue, sizeof(errorValue), "%u", rtcInitializationResult);
       currentView->showError("Clock", errorValue);
     }
-    if (climateSensorInitializationError != 0)
+    if (internalClimateSensorInitializationError != 0)
     {
-      snprintf(errorValue, sizeof(errorValue), "%d", climateSensorInitializationError);
-      currentView->showError("Climate", errorValue);
+      snprintf(errorValue, sizeof(errorValue), "%d", internalClimateSensorInitializationError);
+      currentView->showError("Internal", errorValue);
+    }
+    {
     }
   }
   currentView = ViewLocator::resolveNextCarouselView();

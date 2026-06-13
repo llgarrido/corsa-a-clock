@@ -1,51 +1,36 @@
 #pragma once
 
-#include <SimpleDHT.h>
+#include <Arduino.h>
 
 /**
- * Climate sensor including temperature and humidity.
+ * Common interface for climate sensors that provide temperature and humidity.
  */
 class ClimateSensor
 {
 public:
-  /**
-   * Constructor for ClimateSensor class.
-   * @param pin GPIO pin connected to the DHT11 sensor data line
-   */
-  ClimateSensor(uint8_t pin);
+  virtual ~ClimateSensor() = default;
 
   /**
    * Initializes the sensor. Must be called before any other methods.
    * @return 0 on success, non-zero error code on failure.
    */
-  int begin();
+  virtual int begin() = 0;
 
   /**
    * Checks if a valid readout is available.
    * @return true if a valid readout is available, false otherwise.
    */
-  bool hasReadout();
+  virtual bool hasReadout() = 0;
 
   /**
    * Gets the temperature from the sensor.
    * @return The temperature in degrees Celsius.
    */
-  float getTemperature();
+  virtual float getTemperature() = 0;
 
   /**
    * Gets the humidity from the sensor.
    * @return The humidity as a percentage.
    */
-  byte getHumidity();
-
-private:
-  int read();
-  void updateIfNeeded();
-
-  SimpleDHT11 _dht;
-  uint8_t _pin;
-  unsigned long _lastRead;
-  float _temperature;
-  byte _humidity;
-  bool _valid;
+  virtual byte getHumidity() = 0;
 };

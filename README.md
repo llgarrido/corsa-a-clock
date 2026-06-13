@@ -8,7 +8,7 @@ The firmware is built for Arduino/ESP32 and organizes the interface into views: 
 
 - DS3231 RTC clock with 1 Hz SQW signal for stable refreshes.
 - Date, time, day of week, temperature, and humidity display.
-- DHT11 sensor for climate readings.
+- DHT11 internal sensor for cabin climate readings.
 - ST7735 TFT screen used as a 10-column by 5-row virtual LCD.
 - Two physical navigation buttons: view switching and action/enter.
 - Temporary Wi-Fi access point to synchronize date and time from a web page.
@@ -22,7 +22,7 @@ Main components:
 - Arduino-compatible ESP32.
 - ST7735 TFT display.
 - DS3231 RTC.
-- DHT11 sensor.
+- DHT11 internal sensor.
 - 2 navigation push buttons.
 
 Pins defined in `corsa-a-clock.ino`:
@@ -34,7 +34,7 @@ Pins defined in `corsa-a-clock.ino`:
 | TFT RST | 17 |
 | TFT backlight | 32 |
 | RTC SQW | 33 |
-| DHT11 data | 26 |
+| DHT11 internal data | 26 |
 | TAB button | 14 |
 | ENTER button | 27 |
 
