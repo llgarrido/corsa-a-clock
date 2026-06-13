@@ -63,9 +63,9 @@ To configure a device-specific password:
 
 ## Usage
 
-1. On startup, the display, buttons, RTC, and DHT11 sensor are initialized.
+1. On startup, the display, buttons, RTC, internal DHT11 sensor, and SHT30/SHT3x sensor are initialized.
 2. If clock or sensor errors are detected, they are shown on the screen.
-3. The main view shows date, time, day, temperature, and humidity.
+3. The main view shows date, time, day, exterior temperature, and exterior humidity.
 4. The climate view shows internal and exterior temperature/humidity readings.
 5. The TAB button switches between the main view, climate view, and settings view.
 6. In the settings view, ENTER starts or stops the Wi-Fi access point.
