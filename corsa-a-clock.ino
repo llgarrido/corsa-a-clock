@@ -59,6 +59,40 @@ ViewLocator::NamedView namedViews[] = {
 View *carouselViews[] = {&mainView, &settingsView};
 View *currentView = nullptr;
 
+/**
+ * Initialization result for a component that can report startup errors.
+ */
+struct InitializationResult
+{
+  /**
+   * Component label shown on the splash screen when initialization fails.
+   */
+  const char *label;
+
+  /**
+   * Error code returned by the component initializer, or 0 on success.
+   */
+  byte error;
+};
+
+/**
+ * Shows the non-zero initialization results on the current splash view.
+ * @param results Component initialization results to inspect.
+ * @param count Number of entries in results.
+ */
+void initialize(const InitializationResult results[], size_t count)
+{
+  char errorValue[12];
+  for (size_t i = 0; i < count; i++)
+  {
+    if (results[i].error == 0)
+      continue;
+
+    snprintf(errorValue, sizeof(errorValue), "%u", (unsigned int)results[i].error);
+    currentView->showError(results[i].label, errorValue);
+  }
+}
+
 void setup()
 {
   display.begin();
@@ -67,23 +101,12 @@ void setup()
   ViewLocator::registerCarouselViews(carouselViews, 2);
   buttonTab.begin();
   buttonEnter.begin();
-  byte rtcInitializationResult = rtc.begin();
-  byte internalClimateSensorInitializationError = internalClimateSensor.begin();
-  {
-    char errorValue[12];
-    if (rtcInitializationResult != 0)
-    {
-      snprintf(errorValue, sizeof(errorValue), "%u", rtcInitializationResult);
-      currentView->showError("Clock", errorValue);
-    }
-    if (internalClimateSensorInitializationError != 0)
-    {
-      snprintf(errorValue, sizeof(errorValue), "%d", internalClimateSensorInitializationError);
-      currentView->showError("Internal", errorValue);
-    }
-    {
-    }
-  }
+
+  InitializationResult initializationResults[] = {
+      {"Clock", rtc.begin()},
+      {"Int. Clima", internalClimateSensor.begin()},
+  initialize(initializationResults, sizeof(initializationResults) / sizeof(initializationResults[0]));
+
   currentView = ViewLocator::resolveNextCarouselView();
 }
 
