@@ -45,15 +45,16 @@ void SettingsView::stopEndpoint()
   }
 }
 
-void SettingsView::update()
+bool SettingsView::update()
 {
   if (!enterButton().pressed())
-    return;
+    return true;
   if (_httpServer.isRunning())
     stopEndpoint();
   else
     startEndpoint();
   showCurrentState();
+  return true;
 }
 
 void SettingsView::onDestroy()

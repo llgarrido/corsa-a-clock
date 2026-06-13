@@ -22,7 +22,7 @@ public:
    */
   MainView(Display &display, Button &enterButton, Clock &clock, ClimateSensor &externalClimateSensor);
 
-  void update() override;
+  bool update() override;
 
 protected:
   void onInitialized() override;

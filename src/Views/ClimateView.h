@@ -21,7 +21,7 @@ public:
    */
   ClimateView(Display &display, Button &enterButton, ClimateSensor &internalClimateSensor, ClimateSensor &externalClimateSensor);
 
-  void update() override;
+  bool update() override;
 
 protected:
   void onInitialized() override;

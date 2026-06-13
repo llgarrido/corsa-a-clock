@@ -9,13 +9,14 @@ void ClimateView::onInitialized()
   displayClimate();
 }
 
-void ClimateView::update()
+bool ClimateView::update()
 {
   unsigned long now = millis();
   if (now - _lastRefresh < REFRESH_INTERVAL)
-    return;
+    return true;
 
   displayClimate();
+  return true;
 }
 
 void ClimateView::displayClimate()

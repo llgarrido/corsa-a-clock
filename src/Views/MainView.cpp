@@ -10,13 +10,15 @@ void MainView::onInitialized()
   displayClimate();
 }
 
-void MainView::update()
+bool MainView::update()
 {
   if (_clock.tick())
   {
     displayDateTime();
     displayClimate();
   }
+
+  return true;
 }
 
 void MainView::displayDateTime()

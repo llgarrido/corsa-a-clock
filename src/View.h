@@ -37,9 +37,11 @@ public:
    * @brief Updates the view.
    *
    * Derived views can override this to redraw changing content or react to
-   * input. The base implementation does nothing.
+   * input.
+   *
+   * @return true to keep the view active, false when it should be closed.
    */
-  virtual void update();
+  virtual bool update();
 
   /**
    * @brief Shows a blocking error popup.

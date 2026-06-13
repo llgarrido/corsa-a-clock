@@ -22,7 +22,7 @@ public:
    * @param httpServer HTTP server controlled by this view.
    */
   SettingsView(Display &display, Button &enterButton, HttpServer &httpServer);
-  void update() override;
+  bool update() override;
 
 protected:
   void onInitialized() override;

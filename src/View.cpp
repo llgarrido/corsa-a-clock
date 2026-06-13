@@ -16,7 +16,10 @@ void View::destroy()
   onDestroy();
 }
 
-void View::update() {}
+bool View::update()
+{
+  return true;
+}
 
 void View::showError(const char *label, const char *value)
 {
