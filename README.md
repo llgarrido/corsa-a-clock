@@ -42,7 +42,7 @@ Pins used by the firmware:
 | TAB button | 14 |
 | ENTER button | 27 |
 
-The exterior SHT30/SHT3x sensor uses I2C address `0x44` by default. If your module is configured for `0x45`, change `SHT30_I2C_ADDRESS` in `corsa-a-clock.ino`.
+The exterior SHT30/SHT3x sensor uses the default ESP32 `Wire` bus pins shown above and I2C address `0x44` by default. If your module is configured for `0x45`, change `SHT30_I2C_ADDRESS` in `corsa-a-clock.ino`.
 
 ## Wi-Fi Configuration
 
@@ -85,6 +85,8 @@ The page served by the ESP32 lives in `static-files/`:
 The minified files are written to `static-files/min/`, and `src/Resources.h` is generated from the web resources so they can be embedded in program memory. Edit the source files in `static-files/`, then run the full VS Code task before compiling:
 
 - `Minify HTML, JS and CSS`
+
+The minification tasks use `npx` packages (`html-minifier-terser`, `terser`, and `clean-css-cli`), so Node.js/npm must be available. If minified files are missing, the resource generator falls back to the source files in `static-files/`.
 
 That task runs these steps in order:
 
