@@ -21,8 +21,8 @@
 
 #include "src/Display.h"
 #include "src/Clock.h"
-#include "src/ExternalClimateSensor.h"
-#include "src/InternalClimateSensor.h"
+#include "src/ClimateSensors/ExternalClimateSensor.h"
+#include "src/ClimateSensors/InternalClimateSensor.h"
 #include "src/Button.h"
 #include "src/View.h"
 #include "src/ViewLocator.h"

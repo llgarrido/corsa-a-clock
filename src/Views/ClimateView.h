@@ -2,7 +2,7 @@
 
 #include "../Button.h"
 #include "../Display.h"
-#include "../ClimateSensor.h"
+#include "../ClimateSensors/ClimateSensor.h"
 #include "../View.h"
 
 /**

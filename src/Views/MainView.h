@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Button.h"
-#include "../ClimateSensor.h"
+#include "../ClimateSensors/ClimateSensor.h"
 #include "../Clock.h"
 #include "../Display.h"
 #include "../View.h"
