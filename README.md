@@ -11,6 +11,11 @@ hardware classes. `corsa-a-clock.ino` wires the dependencies together, registers
 the views, initializes hardware, and keeps the main loop focused on HTTP
 service, RF service, buttons, and the active view update.
 
+Although the enclosure and display layout are designed around the Corsa A
+dashboard clock, both the hardware approach and the firmware are suitable for
+other car dashboards. Feel free to adapt the module, wiring, mounting, and
+screen layout to fit any other instrument panel.
+
 ## Features
 
 - ST7735 TFT screen used as a 10-column by 5-row virtual LCD.
@@ -84,7 +89,7 @@ Startup is defined in `setup()`:
 1. Initialize the display and view registries.
 2. Show the splash view.
 3. Initialize buttons, RTC, climate sensors, and the CC1101 receiver.
-4. Collect startup errors with `StartupDiagnostics`.
+4. Collect startup errors with `Diagnostics`.
 5. Show non-zero startup errors on the splash view.
 6. Enter the first carousel view.
 
@@ -108,7 +113,8 @@ The main loop stays intentionally small:
 TAB switches between the main, climate, and settings views. ENTER is used by the
 active view. Leaving the settings view stops the Wi-Fi server if it is running.
 Pressing ENTER on the chat notification view closes it and returns to the
-current carousel view.
+current carousel view. Holding TAB and ENTER together for two seconds restarts
+the ESP32 by software.
 
 If the RTC reports lost power, the clock keeps the 1 Hz refresh signal active
 but treats the date/time as invalid until it is synchronized. Invalid date/time
