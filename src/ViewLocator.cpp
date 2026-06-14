@@ -4,7 +4,7 @@ View **ViewLocator::_carouselViews = nullptr;
 ViewLocator::NamedView *ViewLocator::_namedViews = nullptr;
 uint8_t ViewLocator::_namedViewCount = 0;
 uint8_t ViewLocator::_carouselCount = 0;
-uint8_t ViewLocator::_currentIndex = 0;
+uint8_t ViewLocator::_currentCarouselIndex = 0;
 View *ViewLocator::_currentView = nullptr;
 
 bool ViewLocator::registerNamedViews(NamedView views[], uint8_t count)
@@ -52,7 +52,7 @@ bool ViewLocator::registerCarouselViews(View *views[], uint8_t count)
 
   _carouselViews = views;
   _carouselCount = count;
-  _currentIndex = 0;
+  _currentCarouselIndex = _carouselCount;
   return true;
 }
 
@@ -91,8 +91,9 @@ View *ViewLocator::resolveNextCarouselView()
     return nullptr;
   }
 
-  View *targetView = _carouselViews[_currentIndex];
-  _currentIndex = (_currentIndex + 1) % _carouselCount;
+  uint8_t targetIndex = _currentCarouselIndex >= _carouselCount ? 0 : (_currentCarouselIndex + 1) % _carouselCount;
+  View *targetView = _carouselViews[targetIndex];
+  _currentCarouselIndex = targetIndex;
 
   if (_currentView == targetView)
   {

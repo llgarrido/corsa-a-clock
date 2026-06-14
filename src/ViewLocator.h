@@ -103,6 +103,6 @@ private:
   static NamedView *_namedViews;
   static uint8_t _namedViewCount;
   static uint8_t _carouselCount;
-  static uint8_t _currentIndex;
+  static uint8_t _currentCarouselIndex;
   static View *_currentView;
 };
