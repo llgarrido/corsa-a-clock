@@ -83,4 +83,36 @@ public:
      */
     inline static const IPAddress Ip = IPAddress(192, 168, 1, 1);
   };
+
+  /**
+   * @brief Configuration for the ISM-band chat receiver.
+   */
+  class IsmRx
+  {
+  public:
+    /**
+     * @brief RF carrier frequency used by the CC1101 receiver, in MHz.
+     *
+     * This value must be selected for the deployment region's ISM/SRD radio
+     * regulations and for the actual frequency band supported by the CC1101
+     * module variant installed in the device.
+     */
+    inline static constexpr float FrequencyMhz = 433.92f;
+
+    /**
+     * @brief Minimum accepted packet RSSI, in dBm.
+     *
+     * Packets below this signal level are treated as likely noise or distant
+     * traffic and are ignored by the ISM chat receiver.
+     */
+    inline static constexpr float MinPacketRssiDbm = -100.0f;
+
+    /**
+     * @brief Maximum accepted CC1101 packet LQI.
+     *
+     * Lower LQI is better on the CC1101. Packets above this value are treated
+     * as low-quality reception and are ignored by the ISM chat receiver.
+     */
+    inline static constexpr uint8_t MaxPacketLqi = 80;
+  };
 };
