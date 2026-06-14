@@ -14,3 +14,31 @@ void Diagnostics::showStartupErrors(View &diagnosticsView, const StartupResult r
     diagnosticsView.showError(results[i].label, errorValue);
   }
 }
+
+bool Diagnostics::handleRestart(Button &firstButton, Button &secondButton)
+{
+  static bool holding = false;
+  static unsigned long heldSince = 0;
+
+  if (!firstButton.down() || !secondButton.down())
+  {
+    holding = false;
+    heldSince = 0;
+    return false;
+  }
+
+  firstButton.clear();
+  secondButton.clear();
+
+  unsigned long now = millis();
+  if (!holding)
+  {
+    holding = true;
+    heldSince = now;
+  }
+
+  if (now - heldSince >= Settings::Diagnostics::RestartHoldDelay)
+    ESP.restart();
+
+  return true;
+}

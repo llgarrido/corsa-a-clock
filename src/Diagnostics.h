@@ -36,3 +36,12 @@ public:
    * @param count Number of entries in results.
    */
   static void showStartupErrors(View &diagnosticsView, const StartupResult results[], size_t count);
+
+  /**
+   * Restarts the ESP32 when both buttons are held long enough.
+   * @param firstButton First button in the restart chord.
+   * @param secondButton Second button in the restart chord.
+   * @return true while the restart chord is being held.
+   */
+  static bool handleRestart(Button &firstButton, Button &secondButton);
+};

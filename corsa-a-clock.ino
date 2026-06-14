@@ -134,9 +134,11 @@ void setup()
 
 void loop()
 {
+  if (Diagnostics::handleRestart(buttonTab, buttonEnter)) return;
+
   httpServer.handle();
   ismChat.handle();
-  
+
   if (ismChat.hasMessage()) currentView = ViewLocator::resolveView(viewId(ViewName::ChatNotification));
   else if (buttonTab.pressed()) currentView = ViewLocator::resolveNextCarouselView();
 
