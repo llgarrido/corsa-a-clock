@@ -2,18 +2,19 @@
 
 #include <Arduino.h>
 
+#include "Button.h"
 #include "View.h"
 
 /**
- * Displays startup diagnostics for components that return error codes.
+ * Displays diagnostics and handles runtime recovery actions.
  */
-class StartupDiagnostics
+class Diagnostics
 {
 public:
   /**
    * Startup result for a component that can report initialization errors.
    */
-  struct Result
+  struct StartupResult
   {
     /**
      * Component label shown on the splash screen when initialization fails.
@@ -26,7 +27,7 @@ public:
     byte error;
   };
 
-  StartupDiagnostics() = delete;
+  Diagnostics() = delete;
 
   /**
    * Shows non-zero startup results on the provided view.
@@ -34,5 +35,4 @@ public:
    * @param results Startup results to inspect.
    * @param count Number of entries in results.
    */
-  static void showErrors(View &diagnosticsView, const Result results[], size_t count);
-};
+  static void showStartupErrors(View &diagnosticsView, const StartupResult results[], size_t count);

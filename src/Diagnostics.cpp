@@ -1,6 +1,8 @@
-#include "StartupDiagnostics.h"
+#include "Diagnostics.h"
 
-void StartupDiagnostics::showErrors(View &diagnosticsView, const Result results[], size_t count)
+#include "Settings.h"
+
+void Diagnostics::showStartupErrors(View &diagnosticsView, const StartupResult results[], size_t count)
 {
   char errorValue[12];
   for (size_t i = 0; i < count; i++)

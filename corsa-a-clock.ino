@@ -25,7 +25,7 @@
 #include "src/ClimateSensors/InternalClimateSensor.h"
 #include "src/Button.h"
 #include "src/IsmChat.h"
-#include "src/StartupDiagnostics.h"
+#include "src/Diagnostics.h"
 #include "src/View.h"
 #include "src/ViewLocator.h"
 #include "src/HttpServer.h"
@@ -119,12 +119,12 @@ void setup()
   buttonTab.begin();
   buttonEnter.begin();
 
-  StartupDiagnostics::Result startupResults[] = {
+  Diagnostics::StartupResult startupResults[] = {
       {"Clock", rtc.begin()},
       {"Int. Clima", internalClimateSensor.begin()},
       {"Ext. Clima", externalClimateSensor.begin()},
       {"ISM Chat", ismChat.begin()}};
-  StartupDiagnostics::showErrors(
+  Diagnostics::showStartupErrors(
       *currentView,
       startupResults,
       sizeof(startupResults) / sizeof(startupResults[0]));
