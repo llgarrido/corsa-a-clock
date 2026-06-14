@@ -4,17 +4,6 @@
 #include "View.h"
 
 /**
- * @brief Identifiers for views that can be resolved directly by name.
- */
-enum class ViewName : uint8_t
-{
-  /**
-   * @brief Initial splash screen shown during startup.
-   */
-  SplashScreen
-};
-
-/**
  * @brief Static registry and resolver for application views.
  *
  * ViewLocator stores named views and carousel views, initializes the resolved
@@ -31,7 +20,7 @@ public:
     /**
      * @brief Identifier used to resolve the view later.
      */
-    ViewName name;
+    uint8_t name;
 
     /**
      * @brief View instance associated with the name.
@@ -86,7 +75,7 @@ public:
    * @param name Identifier of the view to activate.
    * @return Pointer to the active view, or nullptr if no view is registered.
    */
-  static View *resolveView(ViewName name);
+  static View *resolveView(uint8_t name);
 
   /**
    * @brief Resolves and activates the next carousel view.

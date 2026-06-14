@@ -32,6 +32,27 @@
 #include "src/Views/SettingsView.h"
 #include "src/Views/SplashScreenView.h"
 
+/**
+ * Identifiers for views that can be resolved directly by name.
+ */
+enum class ViewName : uint8_t
+{
+  /**
+   * Initial splash screen shown during startup.
+   */
+  SplashScreen,
+
+  /**
+   * Temporary ISM chat message notification.
+   */
+  ChatNotification
+};
+
+static constexpr uint8_t viewId(ViewName name)
+{
+  return static_cast<uint8_t>(name);
+}
+
 // --- Display TFT ST7735 ---
 #define DISPLAY_CS_PIN 5
 #define DISPLAY_DC_PIN 16

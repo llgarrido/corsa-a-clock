@@ -56,7 +56,7 @@ bool ViewLocator::registerCarouselViews(View *views[], uint8_t count)
   return true;
 }
 
-View *ViewLocator::resolveView(ViewName name)
+View *ViewLocator::resolveView(uint8_t name)
 {
   for (uint8_t i = 0; i < _namedViewCount; i++)
   {
