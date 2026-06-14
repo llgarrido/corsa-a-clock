@@ -24,10 +24,12 @@
 #include "src/ClimateSensors/ExternalClimateSensor.h"
 #include "src/ClimateSensors/InternalClimateSensor.h"
 #include "src/Button.h"
+#include "src/IsmChat.h"
 #include "src/StartupDiagnostics.h"
 #include "src/View.h"
 #include "src/ViewLocator.h"
 #include "src/HttpServer.h"
+#include "src/Views/ChatNotificationView.h"
 #include "src/Views/ClimateView.h"
 #include "src/Views/MainView.h"
 #include "src/Views/SettingsView.h"
@@ -73,6 +75,14 @@ static constexpr uint8_t viewId(ViewName name)
 #define KEY_TAB_PIN 14
 #define KEY_ENTER_PIN 27
 
+// --- CC1101 RF module ---
+#define RF_MODULE_CS_PIN 25
+#define RF_MODULE_GDO0_PIN 34
+#define RF_MODULE_GDO2_PIN 36
+#define RF_MODULE_SCK_PIN 18
+#define RF_MODULE_MISO_PIN 19
+#define RF_MODULE_MOSI_PIN 23
+
 Display display(DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, DISPLAY_BL_PIN);
 Clock rtc(RTC_SQW_PIN);
 InternalClimateSensor internalClimateSensor(DHT_PIN);
@@ -80,12 +90,20 @@ ExternalClimateSensor externalClimateSensor(SHT30_I2C_ADDRESS);
 Button buttonTab(KEY_TAB_PIN);
 Button buttonEnter(KEY_ENTER_PIN);
 HttpServer httpServer(rtc);
+IsmChat ismChat(
+    RF_MODULE_CS_PIN,
+    RF_MODULE_GDO0_PIN,
+    RF_MODULE_GDO2_PIN,
+    RF_MODULE_SCK_PIN,
+    RF_MODULE_MISO_PIN,
+    RF_MODULE_MOSI_PIN);
 SplashScreenView splashScreenView(display, buttonEnter);
 MainView mainView(display, buttonEnter, rtc, externalClimateSensor);
 ClimateView climateView(display, buttonEnter, internalClimateSensor, externalClimateSensor);
 SettingsView settingsView(display, buttonEnter, httpServer);
 ViewLocator::NamedView namedViews[] = {
     {viewId(ViewName::SplashScreen), &splashScreenView},
+    {viewId(ViewName::ChatNotification), &chatNotificationView}};
 View *carouselViews[] = {&mainView, &climateView, &settingsView};
 static constexpr uint8_t NAMED_VIEW_COUNT = sizeof(namedViews) / sizeof(namedViews[0]);
 static constexpr uint8_t CAROUSEL_VIEW_COUNT = sizeof(carouselViews) / sizeof(carouselViews[0]);
@@ -104,6 +122,7 @@ void setup()
       {"Clock", rtc.begin()},
       {"Int. Clima", internalClimateSensor.begin()},
       {"Ext. Clima", externalClimateSensor.begin()},
+      {"ISM Chat", ismChat.begin()}};
   StartupDiagnostics::showErrors(
       *currentView,
       startupResults,
