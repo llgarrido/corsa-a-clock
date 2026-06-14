@@ -109,3 +109,32 @@ View *ViewLocator::resolveNextCarouselView()
   _currentView->initialize();
   return _currentView;
 }
+
+View *ViewLocator::resolveCurrentCarouselView()
+{
+  if (_carouselCount == 0)
+  {
+    return nullptr;
+  }
+
+  if (_currentCarouselIndex >= _carouselCount)
+  {
+    return nullptr;
+  }
+
+  View *targetView = _carouselViews[_currentCarouselIndex];
+
+  if (_currentView == targetView)
+  {
+    return _currentView;
+  }
+
+  if (_currentView != nullptr)
+  {
+    _currentView->destroy();
+  }
+
+  _currentView = targetView;
+  _currentView->initialize();
+  return _currentView;
+}

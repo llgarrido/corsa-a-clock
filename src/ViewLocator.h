@@ -98,6 +98,16 @@ public:
    */
   static View *resolveNextCarouselView();
 
+  /**
+   * @brief Resolves and activates the currently selected carousel view.
+   *
+   * Useful when a named view should return to the carousel without
+   * advancing to the next entry.
+   *
+   * @return Pointer to the active view, or nullptr if the carousel is empty.
+   */
+  static View *resolveCurrentCarouselView();
+
 private:
   static View **_carouselViews;
   static NamedView *_namedViews;
