@@ -36,6 +36,18 @@ public:
   };
 
   /**
+   * @brief Configuration for runtime diagnostics and recovery actions.
+   */
+  class Diagnostics
+  {
+  public:
+    /**
+     * @brief Time both navigation buttons must be held before restarting.
+     */
+    inline static const unsigned long RestartHoldDelay = 2000;
+  };
+
+  /**
    * @brief Configuration for the virtual LCD display.
    */
   class Display
