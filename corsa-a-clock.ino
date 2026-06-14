@@ -24,6 +24,7 @@
 #include "src/ClimateSensors/ExternalClimateSensor.h"
 #include "src/ClimateSensors/InternalClimateSensor.h"
 #include "src/Button.h"
+#include "src/StartupDiagnostics.h"
 #include "src/View.h"
 #include "src/ViewLocator.h"
 #include "src/HttpServer.h"
@@ -84,60 +85,29 @@ MainView mainView(display, buttonEnter, rtc, externalClimateSensor);
 ClimateView climateView(display, buttonEnter, internalClimateSensor, externalClimateSensor);
 SettingsView settingsView(display, buttonEnter, httpServer);
 ViewLocator::NamedView namedViews[] = {
-    {ViewName::SplashScreen, &splashScreenView}};
+    {viewId(ViewName::SplashScreen), &splashScreenView},
 View *carouselViews[] = {&mainView, &climateView, &settingsView};
 static constexpr uint8_t NAMED_VIEW_COUNT = sizeof(namedViews) / sizeof(namedViews[0]);
 static constexpr uint8_t CAROUSEL_VIEW_COUNT = sizeof(carouselViews) / sizeof(carouselViews[0]);
 View *currentView = nullptr;
 
-/**
- * Initialization result for a component that can report startup errors.
- */
-struct InitializationResult
-{
-  /**
-   * Component label shown on the splash screen when initialization fails.
-   */
-  const char *label;
-
-  /**
-   * Error code returned by the component initializer, or 0 on success.
-   */
-  byte error;
-};
-
-/**
- * Shows the non-zero initialization results on the current splash view.
- * @param results Component initialization results to inspect.
- * @param count Number of entries in results.
- */
-void initialize(const InitializationResult results[], size_t count)
-{
-  char errorValue[12];
-  for (size_t i = 0; i < count; i++)
-  {
-    if (results[i].error == 0)
-      continue;
-
-    snprintf(errorValue, sizeof(errorValue), "%u", (unsigned int)results[i].error);
-    currentView->showError(results[i].label, errorValue);
-  }
-}
-
 void setup()
 {
   display.begin();
   ViewLocator::registerNamedViews(namedViews, NAMED_VIEW_COUNT);
-  currentView = ViewLocator::resolveView(ViewName::SplashScreen);
+  currentView = ViewLocator::resolveView(viewId(ViewName::SplashScreen));
   ViewLocator::registerCarouselViews(carouselViews, CAROUSEL_VIEW_COUNT);
   buttonTab.begin();
   buttonEnter.begin();
 
-  InitializationResult initializationResults[] = {
+  StartupDiagnostics::Result startupResults[] = {
       {"Clock", rtc.begin()},
       {"Int. Clima", internalClimateSensor.begin()},
-      {"Ext. Clima", externalClimateSensor.begin()}};
-  initialize(initializationResults, sizeof(initializationResults) / sizeof(initializationResults[0]));
+      {"Ext. Clima", externalClimateSensor.begin()},
+  StartupDiagnostics::showErrors(
+      *currentView,
+      startupResults,
+      sizeof(startupResults) / sizeof(startupResults[0]));
 
   currentView = ViewLocator::resolveNextCarouselView();
 }
