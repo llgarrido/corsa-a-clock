@@ -46,7 +46,7 @@ enum class ViewName : uint8_t
   SplashScreen,
 
   /**
-   * Temporary ISM chat message notification.
+   * ISM chat message notification.
    */
   ChatNotification
 };
@@ -98,6 +98,7 @@ IsmChat ismChat(
     RF_MODULE_MISO_PIN,
     RF_MODULE_MOSI_PIN);
 SplashScreenView splashScreenView(display, buttonEnter);
+ChatNotificationView chatNotificationView(display, buttonEnter, ismChat);
 MainView mainView(display, buttonEnter, rtc, externalClimateSensor);
 ClimateView climateView(display, buttonEnter, internalClimateSensor, externalClimateSensor);
 SettingsView settingsView(display, buttonEnter, httpServer);
@@ -134,14 +135,10 @@ void setup()
 void loop()
 {
   httpServer.handle();
+  ismChat.handle();
+  
+  if (ismChat.hasMessage()) currentView = ViewLocator::resolveView(viewId(ViewName::ChatNotification));
+  else if (buttonTab.pressed()) currentView = ViewLocator::resolveNextCarouselView();
 
-  if (buttonTab.pressed())
-  {
-    currentView = ViewLocator::resolveNextCarouselView();
-  }
-
-  if (currentView != nullptr)
-  {
-    currentView->update();
-  }
+  if ((currentView != nullptr) && (!currentView->update())) currentView = ViewLocator::resolveCurrentCarouselView();
 }
