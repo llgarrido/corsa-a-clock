@@ -28,6 +28,11 @@ bool Button::pressed()
   return true;
 }
 
+bool Button::down() const
+{
+  return digitalRead(_pin) == LOW;
+}
+
 void Button::clear()
 {
   noInterrupts();

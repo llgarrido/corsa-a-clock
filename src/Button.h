@@ -27,6 +27,12 @@ public:
   bool pressed();
 
   /**
+   * @brief Checks whether the button is currently held down.
+   * @return true if the button input is active, false otherwise.
+   */
+  bool down() const;
+
+  /**
    * @brief Discards any pending press event.
    */
   void clear();
